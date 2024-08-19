@@ -1,0 +1,10 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/(auth)/sign-in/[[...sign-in]]/page": "app/(auth)/sign-in/[[...sign-in]]/page.js",
+  "/(auth)/sign-up/[[...sign-up]]/page": "app/(auth)/sign-up/[[...sign-up]]/page.js",
+  "/(dashbord)/recipes/[recipeId]/page": "app/(dashbord)/recipes/[recipeId]/page.js",
+  "/(dashbord)/recipes/add-recipe/page": "app/(dashbord)/recipes/add-recipe/page.js",
+  "/(dashbord)/page": "app/(dashbord)/page.js",
+  "/(dashbord)/add-recipe/page": "app/(dashbord)/add-recipe/page.js",
+  "/api/[[...route]]/route": "app/api/[[...route]]/route.js"
+}

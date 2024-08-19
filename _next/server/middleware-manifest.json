@@ -1,0 +1,62 @@
+{
+  "version": 3,
+  "middleware": {
+    "/": {
+      "files": [
+        "prerender-manifest.js",
+        "server/edge-runtime-webpack.js",
+        "server/middleware.js"
+      ],
+      "name": "middleware",
+      "page": "/",
+      "matchers": [
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*))(.json)?[\\/#\\?]?$",
+          "originalSource": "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)"
+        },
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/(api|trpc))(.*)(.json)?[\\/#\\?]?$",
+          "originalSource": "/(api|trpc)(.*)"
+        }
+      ],
+      "wasm": [],
+      "assets": [],
+      "environments": {
+        "previewModeId": "8de2dd489a3e8587bd05aca4cd4e8550",
+        "previewModeSigningKey": "e718a439dd1d96b3af8bd003c2937b65a35132334e5af310f1e94c594c0acee8",
+        "previewModeEncryptionKey": "3348e2aad22ae21cde7874f18a78bb1997fe9e16c3d3ab714acb0746223edcc3"
+      }
+    }
+  },
+  "functions": {
+    "/api/[[...route]]/route": {
+      "files": [
+        "server/middleware-build-manifest.js",
+        "server/middleware-react-loadable-manifest.js",
+        "server/next-font-manifest.js",
+        "server/interception-route-rewrite-manifest.js",
+        "prerender-manifest.js",
+        "server/edge-runtime-webpack.js",
+        "server/app/api/[[...route]]/route.js"
+      ],
+      "name": "app/api/[[...route]]/route",
+      "page": "/api/[[...route]]/route",
+      "matchers": [
+        {
+          "regexp": "^/api(?:/(?<route>.+?))?$",
+          "originalSource": "/api/[[...route]]"
+        }
+      ],
+      "wasm": [],
+      "assets": [],
+      "environments": {
+        "previewModeId": "8de2dd489a3e8587bd05aca4cd4e8550",
+        "previewModeSigningKey": "e718a439dd1d96b3af8bd003c2937b65a35132334e5af310f1e94c594c0acee8",
+        "previewModeEncryptionKey": "3348e2aad22ae21cde7874f18a78bb1997fe9e16c3d3ab714acb0746223edcc3"
+      }
+    }
+  },
+  "sortedMiddleware": [
+    "/"
+  ]
+}

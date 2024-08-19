@@ -1,0 +1,16 @@
+{
+  "node": {
+    "af0e7d359501705a4557f4e0464c55e018f4741e": {
+      "workers": {
+        "app/(dashbord)/recipes/[recipeId]/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fanton%2FDocuments%2FCoding%2FWebDev%2FReactApps%2Frezepte%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fserver-actions.js%22%2C%5B%22invalidateCacheAction%22%5D%5D%5D&__client_imported__=true!",
+        "app/_not-found/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fanton%2FDocuments%2FCoding%2FWebDev%2FReactApps%2Frezepte%2Fnode_modules%2F%40clerk%2Fnextjs%2Fdist%2Fesm%2Fapp-router%2Fserver-actions.js%22%2C%5B%22invalidateCacheAction%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/(dashbord)/recipes/[recipeId]/page": "action-browser",
+        "app/_not-found/page": "action-browser"
+      }
+    }
+  },
+  "edge": {},
+  "encryptionKey": "DAmv4LmQQJT2cFO7gyiveQH2UwwmXKlb2RxqQjyqYYY="
+}
