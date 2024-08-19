@@ -1,0 +1,197 @@
+{
+  "id": "be141ed4-a6ca-4aa0-a7d5-d361f7d3e818",
+  "prevId": "d4acf8e5-039b-4375-a3c8-4755faeb3beb",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.recipe_ingredient": {
+      "name": "recipe_ingredient",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "recipe_id": {
+          "name": "recipe_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ingredient_id": {
+          "name": "ingredient_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "unit_id": {
+          "name": "unit_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "amount": {
+          "name": "amount",
+          "type": "numeric(6, 2)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "recipe_ingredient_recipe_id_recipes_id_fk": {
+          "name": "recipe_ingredient_recipe_id_recipes_id_fk",
+          "tableFrom": "recipe_ingredient",
+          "tableTo": "recipes",
+          "columnsFrom": [
+            "recipe_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "recipe_ingredient_ingredient_id_ingredients_id_fk": {
+          "name": "recipe_ingredient_ingredient_id_ingredients_id_fk",
+          "tableFrom": "recipe_ingredient",
+          "tableTo": "ingredients",
+          "columnsFrom": [
+            "ingredient_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "recipe_ingredient_unit_id_unit_id_fk": {
+          "name": "recipe_ingredient_unit_id_unit_id_fk",
+          "tableFrom": "recipe_ingredient",
+          "tableTo": "unit",
+          "columnsFrom": [
+            "unit_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.ingredients": {
+      "name": "ingredients",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "ingredient": {
+          "name": "ingredient",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "ingredients_ingredient_unique": {
+          "name": "ingredients_ingredient_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "ingredient"
+          ]
+        }
+      }
+    },
+    "public.recipes": {
+      "name": "recipes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "method": {
+          "name": "method",
+          "type": "varchar(512)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "img_url": {
+          "name": "img_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'https://placehold.co/600x400/png?text=No+Image'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.unit": {
+      "name": "unit",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "unit": {
+          "name": "unit",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "unit_unit_unique": {
+          "name": "unit_unit_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "unit"
+          ]
+        }
+      }
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
