@@ -107,7 +107,6 @@ const app = new Hono()
       const auth = getAuth(c);
       const { id } = c.req.valid("param");
       const values = c.req.valid("json");
-      console.log(auth?.userId);
 
       if (!id) {
         return c.json({error: "Missing id"}, 400)

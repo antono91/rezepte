@@ -11,6 +11,7 @@ import EditMethodForm from "@/components/edit-method-form";
 import { CookingPot, List, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
+import IngredientsList from "@/components/ingredients-list";
 
 type Props = {
   params: {recipeId: string},
@@ -83,13 +84,10 @@ export default function RecipePage ({params}: Props) {
               
             </div>
             <div className="flex mt-4 p-6 bg-slate-100 rounded-xl border">
-                <ul>
-                  <li>test</li>
-                  <li>test</li>
-                  <li>test</li>
-                  <li>test</li>
-                </ul>
-              </div>
+              <IngredientsList 
+                recipeId={recipeQuery.data?.id}
+              />
+            </div>
           </div>
         </div>
         <div className="flex gap-6 items-center mt-10">
