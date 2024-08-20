@@ -121,7 +121,7 @@ const IngredientsList = ({recipeId}: Props) => {
                 Choose an ingredient, a unit and an amount.
               </DialogDescription>
             </DialogHeader>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-col md:flex-row">
               <Combobox 
                 valuesList={ingredientsValues}
                 selectType="ingredient"

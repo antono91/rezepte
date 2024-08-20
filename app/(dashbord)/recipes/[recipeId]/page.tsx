@@ -45,11 +45,12 @@ export default function RecipePage ({params}: Props) {
     <div className="max-w-screen-2xl mx-auto">
       <div className="p-6">
         <div className="flex items-center justify-between">
-            <h1 className="text-4xl font-medium">
+            <h1 className="text-2xl font-medium md:text-4xl">
               {recipeQuery.data?.name}
             </h1>
             <Button
               variant="outline"
+              size="sm"
               onClick={toggleEditMode}
             >
               <Pencil size="16" className="mr-2" />
