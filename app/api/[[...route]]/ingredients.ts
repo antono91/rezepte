@@ -1,12 +1,13 @@
 import { Hono } from "hono";
 import { z } from "zod";
+import { eq } from "drizzle-orm";
 
-import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { zValidator } from "@hono/zod-validator";
+import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
+import { createId } from "@paralleldrive/cuid2";
+
 import { db } from "@/db/drizzle";
 import { ingredients, insertRecipesIngredientsSchema, RecipesIngredients, units } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import { createId } from "@paralleldrive/cuid2";
 
 
 
@@ -49,24 +50,46 @@ const app = new Hono()
   
     return c.json({ data });
   })
+  .get(
+    "/",
+    clerkMiddleware(),
+    async (c) => {
+      const auth = getAuth(c);
+
+      if (!auth?.userId) {
+        return c.json({error: "Unauthorized"}, 401)
+      }
+
+      const data = await db
+      .select({
+        id: ingredients.id,
+        value: ingredients.ingredient,
+      })
+      .from(ingredients)
+      
+      if (data.length <= 0) {
+        return c.json({error: "Not found"}, 404)
+      }
+
+    return c.json({data})
+  })
   .post(
-    "/:id",
-    zValidator("param", z.object({
-      id: z.string().optional(),
-    })),
+    "/",
+    clerkMiddleware(),
     zValidator("json", insertRecipesIngredientsSchema.omit({
       id:true,
     })),
-    clerkMiddleware(),
     async (c) => {
       const auth = getAuth(c);
       const values = c.req.valid("json");
+
+      console.log(values)
 
       if (!auth?.userId) {
         return c.json({error: "Unauthorized"}, 401);
       }
 
-      const [data] = await db.insert(RecipesIngredients).values({
+      const data = await db.insert(RecipesIngredients).values({
         id: createId(),
         ...values
       }).returning();

@@ -45,7 +45,7 @@ export const RecipesIngredients = pgTable("recipe_ingredient", {
   unit_id: text("unit_id").notNull().references(() => units.id, {
     onDelete: "set null"
   }),
-  amount: numeric("amount", {precision: 6, scale: 2}).notNull(),
+  amount: numeric("amount", {precision: 6, scale: 0}).notNull(),
 });
 
 export const recipesIngredientsRelations = relations(RecipesIngredients, ({ one }) => ({

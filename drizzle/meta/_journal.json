@@ -36,6 +36,13 @@
       "when": 1724068392516,
       "tag": "0004_little_galactus",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1724224257017,
+      "tag": "0005_clear_lady_deathstrike",
+      "breakpoints": true
     }
   ]
 }

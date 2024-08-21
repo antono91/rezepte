@@ -1,98 +1,73 @@
 "use client"
 
 import { z } from "zod";
+import { useState } from "react";
 import { PlusCircle, Trash2 } from "lucide-react";
 
 import { useGetIngredients } from "@/app/hooks/use-get-ingredients";
-import { insertRecipesIngredientsSchema } from "@/db/schema";
-import { client } from "@/lib/hono";
+import { useGetAllIngredients } from "@/app/hooks/use-get-all-ingredients";
+import { useGetAllUnits } from "@/app/hooks/use-get-all-units";
+
+import { ingredients, insertRecipesIngredientsSchema } from "@/db/schema";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Combobox } from "./combobox";
-import { useState } from "react";
+
+import AddIngredientForm from "@/components/add-ingredient-form";
+import { useAddIngredient } from "@/app/hooks/use-add-ingredient";
 
 
 type Props = {
   recipeId: string | undefined,
+  isEditMode: boolean,
 }
 
-const IngredientsList = ({recipeId}: Props) => {
+const formSchema = z.object({
+  recipe_id: z.string().optional(),
+  ingredient_id: z.string(),
+  unit_id: z.string(),
+  amount: z.string(),
+})
 
-  const [unit, setUnit] = useState("");
-  const [ing, setIngredient] = useState("");
+type FormValues = z.infer<typeof formSchema>;
 
+const IngredientsList = ({recipeId, isEditMode}: Props) => {
 
-  const handleAddIngredient = () => {
-    console.log("test")
-    console.log(unit, ing)
-  }
+  const allIngredientsQuery = useGetAllIngredients();
+  const ingredientsOptions = (allIngredientsQuery.data ?? []);
 
-  const ingredientsValues = [
-    {
-      value: "Apfel",
-      label: "Apfel",
-    },
-    {
-      value: "Mehl",
-      label: "Mehl",
-    },
-    {
-      value: "Zucker",
-      label: "Zucker",
-    },
-    {
-      value: "Zimt",
-      label: "Zimt",
-    },
-    {
-      value: "Milch",
-      label: "Milch",
-    },
-  ]
-
-  const unitValues = [
-    {
-      value: "g",
-      label: "g",
-    },
-    {
-      value: "Stück",
-      label: "Stück",
-    },
-    {
-      value: "EL",
-      label: "EL",
-    },
-    {
-      value: "TL",
-      label: "TL",
-    },
-    {
-      value: "ml",
-      label: "ml",
-    },
-  ]
+  const allUnitsQuery = useGetAllUnits();
+  const unitsOptions = (allUnitsQuery.data ?? []);
 
   const ingredientsQuery = useGetIngredients(recipeId);
+  const addIngredient = useAddIngredient();
+
+  const [open, setOpen] = useState(false)
+
+  const onSubmit = (values: FormValues) => {
+    addIngredient.mutate({
+      recipe_id: recipeId!,
+      ...values
+    })
+    setOpen(false);
+  }
 
   return ( 
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 w-full md:w-auto">
       {ingredientsQuery.data?.map((ingredient) => (
+        isEditMode ? (
         <div
           key={ingredient.ingredientId}
           className="grid grid-cols-4 border items-center shadow-md rounded-sm bg-slate-200 px-4 py-1"
         >
-          <p>{ingredient.amount}</p>
+          <p className="text-right mr-3">{ingredient.amount}</p>
           <p className="text-slate-600">{ingredient.unit}</p>
           <p className="font-medium">{ingredient.ingredient}</p>
           <Button
@@ -103,16 +78,27 @@ const IngredientsList = ({recipeId}: Props) => {
             <Trash2 className="size-4"/>
           </Button>
         </div>
-      ))}
+      ): (
+        <div
+          key={ingredient.ingredientId}
+          className="grid grid-cols-4"
+        >
+          <p className="text-right mr-3">{ingredient.amount}</p>
+          <p className="text-slate-600">{ingredient.unit}</p>
+          <p className="font-medium">{ingredient.ingredient}</p>
+      </div>)
+    ))}
         
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger>
-            <Button
+            {isEditMode && (
+              <Button
               className="border shadow-md w-full"
             >
               <PlusCircle className="mr-2"/>
               Add Ingredient
             </Button>
+            )}
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -121,34 +107,15 @@ const IngredientsList = ({recipeId}: Props) => {
                 Choose an ingredient, a unit and an amount.
               </DialogDescription>
             </DialogHeader>
-            <div className="flex gap-2 flex-col md:flex-row">
-              <Combobox 
-                valuesList={ingredientsValues}
-                selectType="ingredient"
-                onChange={setIngredient}
-              />
-              <Input 
-                className="w-20"
-                placeholder="amount"
-              />
-              <Combobox 
-                valuesList={unitValues}
-                selectType="unit"
-                onChange={setUnit}
-              />
-            </div>
-            <DialogClose asChild>
-              <Button
-                onClick={handleAddIngredient}
-              >
-                <PlusCircle className="mr-2"/>
-                Add Ingredient
-              </Button>
-            </DialogClose>
+            <AddIngredientForm 
+              ingredientsOptions={ingredientsOptions}
+              unitsOptions={unitsOptions}
+              onSubmit={onSubmit}
+            />
           </DialogContent>
         </Dialog>
     </div>
    );
 }
- 
+
 export default IngredientsList;

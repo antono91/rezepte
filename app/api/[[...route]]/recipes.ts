@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import {z} from "zod"
+import { eq } from "drizzle-orm";
 
 import {zValidator} from "@hono/zod-validator";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
@@ -7,7 +8,6 @@ import { createId } from "@paralleldrive/cuid2";
 
 import { db } from "@/db/drizzle";
 import { insertRecipeSchema, recipes } from "@/db/schema";
-import { eq } from "drizzle-orm";
 
 
 const app = new Hono()

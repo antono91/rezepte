@@ -21,8 +21,8 @@ import { on } from "events"
 
 type Props = {
   valuesList: {
-    value: string,
-    label: string
+    id: string,
+    value: string
   }[],
   selectType: string,
   onChange: (val: string) => void,
@@ -46,7 +46,7 @@ onChange,
           className="w-[180px] justify-between"
         >
           {value
-            ? valuesList.find((item) => item.value === value)?.label
+            ? valuesList.find((item) => item.value === value)?.value
             : `Select ${selectType}...`}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -59,11 +59,11 @@ onChange,
             <CommandGroup>
               {valuesList.map((item) => (
                 <CommandItem
-                  key={item.value}
+                  key={item.id}
                   value={item.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue)
-                    onChange(currentValue)
+                    onChange(item.id)
                     setOpen(false)
                   }}
                 >
@@ -73,7 +73,7 @@ onChange,
                       value === item.value ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {item.label}
+                  {item.value}
                 </CommandItem>
               ))}
             </CommandGroup>
