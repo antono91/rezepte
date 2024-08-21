@@ -95,6 +95,35 @@ const app = new Hono()
       }).returning();
       
       return c.json({data});
+  })
+  .delete(
+    "/",
+    clerkMiddleware(),
+    zValidator("json", insertRecipesIngredientsSchema.pick({
+      id:true,
+    })),
+    async (c) => {
+      const auth = getAuth(c);
+      const { id } = c.req.valid("json")
+
+      if (!id) {
+        return c.json({error: "Missing id"}, 400)
+      }
+
+      if (!auth?.userId) {
+        return c.json({error: "Unauthorized"}, 401)
+      }
+
+      const [data] = await db.delete(RecipesIngredients)
+        .where(eq(RecipesIngredients.id, id))
+        .returning();
+
+      if (!data){
+        return c.json({error: "Not found"}, 404)
+      }
+
+      return c.json({data})
+
   });
 
   export default app;

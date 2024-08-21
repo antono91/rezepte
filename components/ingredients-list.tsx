@@ -22,6 +22,7 @@ import {
 
 import AddIngredientForm from "@/components/add-ingredient-form";
 import { useAddIngredient } from "@/app/hooks/use-add-ingredient";
+import { useDeleteIngredient } from "@/app/hooks/use-delete-ingredient";
 
 
 type Props = {
@@ -49,6 +50,8 @@ const IngredientsList = ({recipeId, isEditMode}: Props) => {
   const ingredientsQuery = useGetIngredients(recipeId);
   const addIngredient = useAddIngredient();
 
+  const deleteIngredients = useDeleteIngredient();
+
   const [open, setOpen] = useState(false)
 
   const onSubmit = (values: FormValues) => {
@@ -57,6 +60,10 @@ const IngredientsList = ({recipeId, isEditMode}: Props) => {
       ...values
     })
     setOpen(false);
+  }
+
+  const deleteOne = (id: string) => {
+    deleteIngredients.mutate({id})
   }
 
   return ( 
@@ -74,6 +81,7 @@ const IngredientsList = ({recipeId, isEditMode}: Props) => {
             size="sm"
             variant="destructive"
             className="rounded-md ml-3 border"
+            onClick={() => deleteOne(ingredient.id)}
           >
             <Trash2 className="size-4"/>
           </Button>
@@ -81,7 +89,7 @@ const IngredientsList = ({recipeId, isEditMode}: Props) => {
       ): (
         <div
           key={ingredient.ingredientId}
-          className="grid grid-cols-4"
+          className="grid grid-cols-4 items-center"
         >
           <p className="text-right mr-3">{ingredient.amount}</p>
           <p className="text-slate-600">{ingredient.unit}</p>
